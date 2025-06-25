@@ -1,69 +1,51 @@
-# React + TypeScript + Vite
+# 🏋️‍♂️ FullFit System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**FullFit System** es una plataforma web diseñada para optimizar la gestión de gimnasios, comenzando con Full Fitness Circasia. El sistema digitaliza el control de pagos, acceso de clientes, gestión de entrenadores, eventos y productos. Está dividido en 3 etapas de desarrollo para facilitar su implementación por fases.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Características por Etapas
 
-## Expanding the ESLint configuration
+### 🧱 Etapa 1 – Sistema básico (MVP)
+- Registro de mensualidades.
+- Gestión de clientes y su estado (activo/inactivo).
+- Recordatorios automáticos por WhatsApp.
+- Calendario de eventos (solo visible para clientes activos).
+- Perfil de entrenadores personales y asignación de rutinas.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 📊 Etapa 2 – Gestión de acceso y panel administrativo
+- Generación de código QR o PIN único por cliente.
+- Verificación de acceso rápida desde recepción o celular.
+- Dashboard con métricas: clientes activos, vencimientos y pagos recientes.
+- Sistema de roles (admin, portero, entrenador).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🧾 Etapa 3 – Automatización total y expansión
+- Integración con lector de huella (opcional).
+- Integración con pasarelas de pago (Nequi, Bancolombia, tarjeta).
+- Módulo de productos (catálogo, stock, ventas).
+- Aplicación web progresiva (tipo app móvil).
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧪 Tecnologías utilizadas
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Frontend**: React.js + TailwindCSS
+- **Backend**: Node.js + Express.js
+- **Base de datos**: MySQL
+- **Despliegue**: Vercel / Render / Railway
+- **Notificaciones**: WhatsApp Business API (integración futura)
+- **Autenticación y roles**: JWT, RBAC
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🧑‍💻 Roles del sistema
+
+- **Administrador**: Control total del sistema, métricas, pagos y gestión.
+- **Entrenador**: Visualiza clientes asignados y crea rutinas personalizadas.
+- **Portero**: Verifica accesos mediante QR/PIN.
+- **Cliente**: Visualiza estado de membresía, eventos y rutinas asignadas.
+
+---
+
+## 📁 Estructura del proyecto
+
