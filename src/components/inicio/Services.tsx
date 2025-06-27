@@ -11,7 +11,7 @@ export default function Services() {
           <motion.div
             key={idx}
             whileHover={{ scale: 1.05 }}
-            className="bg-black p-6 rounded-xl text-center border border-green-500"
+            className="bg-black p-6 rounded-xl text-center border border-[#1E88E5]"
           >
             <img src={`/assets/${service.toLowerCase()}.jpg`} alt={service} className="h-40 object-cover rounded mb-4" />
             <p>{service}</p>

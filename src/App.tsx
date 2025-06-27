@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import  Inicio  from "./pages/inicio";
-import Login from "./pages/Login"; 
+import Inicio from "./pages/inicio";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ClaseDetalle from "./pages/ClaseDetalle";
+import EntrenadorDetalle from "./pages/EntrenadorDetalle";
 
 function AutoLogoutWrapper({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -37,14 +39,15 @@ function AutoLogoutWrapper({ children }: { children: React.ReactNode }) {
 function App() {
   return (
     <BrowserRouter>
-        <AutoLogoutWrapper>
-          <Routes>
-            <Route path="/" element={<Inicio />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Register" element={<Register />} />
-
-            </Routes>
-          </AutoLogoutWrapper>
+      <AutoLogoutWrapper>
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/clases/:id" element={<ClaseDetalle />} />
+          <Route path="/entrenadores/:id" element={<EntrenadorDetalle />} />
+        </Routes>
+      </AutoLogoutWrapper>
     </BrowserRouter>
   );
 }
