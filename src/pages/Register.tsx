@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InputField from "../components/auth/InputField";
+
 export default function Register() {
   const [formData, setFormData] = useState({
     fullName: "",
@@ -16,11 +17,24 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords do not match");
       return;
     }
-    console.log("Register", formData);
+
+    const userToSave = {
+      fullName: formData.fullName,
+      cc: formData.cc,
+      phone: formData.phone,
+      email: formData.email,
+    };
+
+    localStorage.setItem("registeredUser", JSON.stringify(userToSave));
+    alert("Usuario registrado exitosamente");
+
+    // Puedes redirigir al login si lo deseas:
+    // navigate("/login");
   };
 
   return (
@@ -30,6 +44,7 @@ export default function Register() {
         className="bg-[#111] p-10 rounded-xl shadow-lg w-full max-w-md"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+
         <InputField
           label="Full Name"
           type="text"
@@ -72,9 +87,10 @@ export default function Register() {
           value={formData.confirmPassword}
           onChange={handleChange}
         />
+
         <button
           type="submit"
-          className="w-full bg-green-500 py-2 rounded-lg font-semibold text-black mt-4"
+          className="w-full bg-[#1E88E5]  py-2 rounded-lg font-semibold text-black mt-4"
         >
           Register
         </button>

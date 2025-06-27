@@ -1,11 +1,35 @@
 import { useState } from "react";
 import InputField from "../components/auth/InputField";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const users = [
+    {
+      fullName: "Juan Pérez",
+      email: "cliente@example.com",
+      password: "cliente123",
+      role: "cliente",
+    },
+    {
+      fullName: "Ana Torres",
+      email: "entrenador@example.com",
+      password: "entrenador123",
+      role: "entrenador",
+    },
+    {
+      fullName: "Carlos Gómez",
+      email: "admin@example.com",
+      password: "admin123",
+      role: "admin",
+    },
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -13,7 +37,21 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login", formData);
+
+    const foundUser = users.find(
+      (u) => u.email === formData.email && u.password === formData.password
+    );
+
+    if (!foundUser) {
+      alert("Usuario o contraseña incorrectos");
+      return;
+    }
+
+    localStorage.setItem("loggedUser", JSON.stringify(foundUser));
+    alert(`Bienvenido, ${foundUser.fullName} (${foundUser.role})`);
+
+    // Redireccionar al dashboard o a la página que quieras
+    navigate("/");
   };
 
   return (
@@ -39,7 +77,7 @@ export default function Login() {
         />
         <button
           type="submit"
-          className="w-full bg-green-500 py-2 rounded-lg font-semibold text-black mt-4"
+          className="w-full bg-[#1E88E5]  py-2 rounded-lg font-semibold text-black mt-4"
         >
           Login
         </button>
