@@ -1,76 +1,84 @@
 // src/components/Services.tsx
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import rumba from "../../assets/rumba.png";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import rumba from "../../assets/rumba.png"; // imagen fallback
 
 const services = [
   {
     id: 1,
-    name: "Zumba",
-    image: rumba,
-    description: "Clase de Rumba terapia llena de ritmo y energía.",
-    duration: "60 minutos",
-    schedule: "Lunes, Miércoles, Viernes",
-    level: "Todos los niveles",
-    trainer: "Laura Ríos",
+    name: "Yoga Flow",
+    image: "/assets/yoga.jpg",
+    video: "/videos/yoga.mp4",
+    description: "Find your inner peace with our yoga sessions.",
   },
   {
     id: 2,
-    name: "Yoga",
-    image: "/assets/yoga.jpg", // Asegúrate que esta imagen esté en la carpeta 'public/assets'
-    description: "Clase de Yoga para mejorar tu flexibilidad y concentración.",
-    duration: "45 minutos",
-    schedule: "Martes y Jueves",
-    level: "Principiante",
-    trainer: "Carlos Méndez",
+    name: "Spin Revolution",
+    image: "/assets/spin.jpg",
+    video: "/videos/spin.mp4",
+    description: "Experience high-intensity cardio with our spin classes.",
   },
   {
     id: 3,
-    name: "Boxing",
-    image: "/assets/boxing.jpg",
-    description: "Entrenamiento de boxeo para aumentar fuerza y resistencia.",
-    duration: "50 minutos",
-    schedule: "Lunes a Viernes",
-    level: "Intermedio",
-    trainer: "Ana Torres",
-  },
-  {
-    id: 4,
-    name: "Martial Arts",
-    image: "/assets/martial arts.jpg", // Ojo: nombres de archivo con espacios pueden dar error
-    description: "Técnicas de artes marciales para defensa personal.",
-    duration: "70 minutos",
-    schedule: "Miércoles y Sábado",
-    level: "Avanzado",
-    trainer: "Sensei Jiménez",
+    name: "Powerlifting",
+    image: "/assets/powerlifting.jpg",
+    video: "/videos/powerlifting.mp4",
+    description: "Build strength and power with our weightlifting program.",
   },
 ];
 
 export default function Services() {
   const navigate = useNavigate();
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   const handleClick = (clase: any) => {
     navigate(`/clase/${clase.id}`, { state: clase });
   };
 
   return (
-    <section className="bg-[#111] text-white px-8 py-16">
-      <h3 className="text-3xl font-bold mb-8">Transform Your Fitness Journey</h3>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <section className="text-white px-6 py-16 max-w-7xl mx-auto">
+      <h3 className="text-2xl font-semibold mb-10">Our Classes</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {services.map((clase) => (
-          <motion.div
+          <div
             key={clase.id}
-            whileHover={{ scale: 1.05 }}
-            className="bg-black p-6 rounded-xl text-center border border-[#1E88E5] cursor-pointer"
             onClick={() => handleClick(clase)}
+            onMouseEnter={() => setHoveredId(clase.id)}
+            onMouseLeave={() => setHoveredId(null)}
+            className="cursor-pointer relative rounded-xl overflow-hidden"
           >
-            <img
-              src={clase.image}
-              alt={clase.name}
-              className="h-40 w-full object-cover rounded mb-4"
-            />
-            <p>{clase.name}</p>
-          </motion.div>
+            <AnimatePresence mode="wait">
+              {hoveredId === clase.id ? (
+                <motion.video
+                  key="video"
+                  src={clase.video}
+                  autoPlay
+                  loop
+                  muted
+                  className="w-full h-40 object-cover rounded-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                />
+              ) : (
+                <motion.img
+                  key="image"
+                  src={clase.image}
+                  alt={clase.name}
+                  className="w-full h-40 object-cover rounded-xl"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                />
+              )}
+            </AnimatePresence>
+
+            <div className="mt-4">
+              <p className="font-bold">{clase.name}</p>
+              <p className="text-sm text-gray-400">{clase.description}</p>
+            </div>
+          </div>
         ))}
       </div>
     </section>
