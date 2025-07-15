@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import rumba from "../../assets/rumba.png"; // imagen fallback
 
 const services = [
   {

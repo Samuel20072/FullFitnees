@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InputField from "../components/auth/InputField";
+import InputField from "../../components/auth/InputField";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {

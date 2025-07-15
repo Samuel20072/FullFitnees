@@ -30,7 +30,7 @@ export default function Header() {
 
         {/* Crear Entrenador: Solo admin */}
         {user?.role === "admin" && (
-          <Link to="/create-trainer" className="hover:text-[#1E88E5]">Crear Entrenador</Link>
+          <Link to="/cr" className="hover:text-[#1E88E5]">admin</Link>
         )}
 
         {/* Perfil o Login/Register */}
