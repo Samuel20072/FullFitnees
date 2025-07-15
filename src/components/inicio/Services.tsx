@@ -1,85 +1,65 @@
-// src/components/Services.tsx
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import rumba from "../../assets/rumba.png"; // imagen fallback
+// src/components/TopDestinations.tsx
+import img1 from "../../assets/fullFinnes.png";
+import img2 from "../../assets/gym.jfif";
+import img3 from "../../assets/rumba.png";
+import img4 from "../../assets/gym.jfif";
 
-const services = [
-  {
-    id: 1,
-    name: "Yoga Flow",
-    image: "/assets/yoga.jpg",
-    video: "/videos/yoga.mp4",
-    description: "Find your inner peace with our yoga sessions.",
-  },
-  {
-    id: 2,
-    name: "Spin Revolution",
-    image: "/assets/spin.jpg",
-    video: "/videos/spin.mp4",
-    description: "Experience high-intensity cardio with our spin classes.",
-  },
-  {
-    id: 3,
-    name: "Powerlifting",
-    image: "/assets/powerlifting.jpg",
-    video: "/videos/powerlifting.mp4",
-    description: "Build strength and power with our weightlifting program.",
-  },
+const destinations = [
+  { image: img1, title: "Golden Bridge, Ba Na Hills", country: "Vietnam" },
+  { image: img2, title: "Dubrovnik", country: "Croatia" },
+  { image: img3, title: "Hot Air Balloon Cappadocia", country: "Turkey" },
+  { image: img4, title: "Sydney Harbour Bridge", country: "Australia" },
 ];
 
-export default function Services() {
-  const navigate = useNavigate();
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+const filters = [
+  "Popular", "USA", "Europe", "Asia", "Africa & Middle East",
+  "Australia & The Pacific", "Canada", "More"
+];
 
-  const handleClick = (clase: any) => {
-    navigate(`/clase/${clase.id}`, { state: clase });
-  };
-
+export default function TopDestinations() {
   return (
-    <section className="text-white px-6 py-16 max-w-7xl mx-auto">
-      <h3 className="text-2xl font-semibold mb-10">Our Classes</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {services.map((clase) => (
-          <div
-            key={clase.id}
-            onClick={() => handleClick(clase)}
-            onMouseEnter={() => setHoveredId(clase.id)}
-            onMouseLeave={() => setHoveredId(null)}
-            className="cursor-pointer relative rounded-xl overflow-hidden"
-          >
-            <AnimatePresence mode="wait">
-              {hoveredId === clase.id ? (
-                <motion.video
-                  key="video"
-                  src={clase.video}
-                  autoPlay
-                  loop
-                  muted
-                  className="w-full h-40 object-cover rounded-xl"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                />
-              ) : (
-                <motion.img
-                  key="image"
-                  src={clase.image}
-                  alt={clase.name}
-                  className="w-full h-40 object-cover rounded-xl"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                />
-              )}
-            </AnimatePresence>
-
-            <div className="mt-4">
-              <p className="font-bold">{clase.name}</p>
-              <p className="text-sm text-gray-400">{clase.description}</p>
-            </div>
+    <section className="w-full bg-white py-12 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-0">
+            Top Destinations
+          </h2>
+          <div className="flex items-center gap-4 overflow-x-auto whitespace-nowrap text-sm text-gray-600">
+            {filters.map((filter, idx) => (
+              <button
+                key={idx}
+                className={`${
+                  idx === 0 ? "font-semibold text-black underline" : ""
+                } hover:text-black transition`}
+              >
+                {filter}
+              </button>
+            ))}
+            <button className="ml-4 border border-black px-4 py-1 rounded-full hover:bg-black hover:text-white transition">
+              Explore all destinations
+            </button>
           </div>
-        ))}
+        </div>
+
+        {/* Destination Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {destinations.map((dest, idx) => (
+            <div key={idx} className="flex flex-col">
+              <div className="h-64 bg-gray-200 rounded-xl overflow-hidden shadow-sm">
+                <img
+                  src={dest.image}
+                  alt={dest.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="mt-2 text-sm font-semibold text-gray-900">
+                {dest.title}
+              </h3>
+              <p className="text-xs text-gray-600">{dest.country}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
