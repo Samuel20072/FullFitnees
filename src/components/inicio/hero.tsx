@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import img1 from "../../assets/fullFinnes.png";
-import img2 from "../../assets/daniel-apodaca-WdoQio6HPVA-unsplash.jpg";
+import img1 from "../../assets/john-fornander-TAZoUmDqzXk-unsplash.jpg";
+import img2 from "../../assets/danielle-cerullo-CQfNt66ttZM-unsplash.jpg";
 import img3 from "../../assets/samuel-girven-2e4lbLTqPIo-unsplash.jpg";
 
 export default function HeroSlider() {
@@ -16,14 +16,14 @@ export default function HeroSlider() {
         >
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
             Transforma tu cuerpo <br />
-            con <span className="text-indigo-600">Full Fitness</span>
+            con <span className="text-[#0D80F2]">Full Fitness</span>
           </h1>
           <p className="mt-4 text-gray-600 max-w-md text-sm md:text-base">
             Descubre nuestras clases, entrenamientos personalizados y todo lo
             que necesitas para lograr tus objetivos físicos. Vive la mejor
             experiencia fitness de tu vida.
           </p>
-          <button className="mt-6 px-6 py-2 bg-indigo-600 text-white rounded-full text-sm hover:bg-indigo-700 transition">
+          <button className="mt-6 px-6 py-2 bg-[#0D80F2] hover:bg-[#1E88E5] text-white rounded-full text-sm transition">
             Comienza hoy
           </button>
         </motion.div>

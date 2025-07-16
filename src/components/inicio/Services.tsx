@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import rumba from "../../assets/rumba.png";
+import funcional from "../../assets/Prueba los entrenamientos grupales, dinámicos, divertidos y económicos_.jfif";
 
 const servicios = [
   {
@@ -8,7 +9,7 @@ const servicios = [
     description: "Ejercítate al ritmo de la música con nuestras sesiones dirigidas.",
   },
   {
-    image: rumba,
+    image: funcional,
     title: "Entrenamiento Funcional",
     description: "Rutinas dinámicas que mejoran fuerza, resistencia y coordinación.",
   },
