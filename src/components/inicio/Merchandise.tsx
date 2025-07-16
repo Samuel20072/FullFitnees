@@ -1,39 +1,38 @@
-// src/components/LatestStories.tsx
 import story1 from "../../assets/fullFinnes.png";
 import story2 from "../../assets/gym.jfif";
 import story3 from "../../assets/rumba.png";
 
-const featured = {
+const articuloPrincipal = {
   image: story1,
-  category: "Food and Drink",
-  title: "Los Angeles food & drink guide: 10 things to try in Los Angeles, California",
-  date: "Aug 13, 2024",
-  timeToRead: "4 min read",
+  category: "Nutrición",
+  title: "Guía de alimentación para mejorar tu rendimiento en el gimnasio",
+  date: "13 Ago 2024",
+  timeToRead: "4 min de lectura",
   summary:
-    "Explore the best California eats every foodie can't miss. From street tacos to artisan chocolate, these picks define the LA experience.",
+    "Descubre qué alimentos potenciarán tus entrenamientos y cómo planificar tus comidas para tener más energía y resultados visibles.",
 };
 
-const sidebarStories = [
+const articulosLaterales = [
   {
     image: story2,
-    category: "Shopping",
-    title: "15 South London Markets You’ll Love: Best Markets in South London",
-    date: "Aug 9, 2024",
-    timeToRead: "4 min read",
+    category: "Rutinas",
+    title: "5 rutinas efectivas para perder grasa corporal en 4 semanas",
+    date: "09 Ago 2024",
+    timeToRead: "4 min de lectura",
   },
   {
     image: story3,
-    category: "Hotels",
-    title: "10 incredible hotels around the world you can book with points in 2024",
-    date: "Aug 10, 2024",
-    timeToRead: "4 min read",
+    category: "Clases Grupales",
+    title: "Beneficios de la rumba fitness: cardio, diversión y comunidad",
+    date: "10 Ago 2024",
+    timeToRead: "4 min de lectura",
   },
   {
     image: story2,
-    category: "Travel Budget",
-    title: "Visiting Chicago on a Budget: Affordable Eats and Attraction Deals",
-    date: "Aug 6, 2024",
-    timeToRead: "4 min read",
+    category: "Consejos",
+    title: "Errores comunes al empezar en el gimnasio (y cómo evitarlos)",
+    date: "06 Ago 2024",
+    timeToRead: "4 min de lectura",
   },
 ];
 
@@ -42,35 +41,35 @@ export default function LatestStories() {
     <section className="w-full bg-white py-12 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">Latest Stories</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Últimos Artículos</h2>
           <button className="border border-gray-800 px-4 py-1 rounded-full text-sm hover:bg-gray-800 hover:text-white transition">
-            Read more articles
+            Ver más artículos
           </button>
         </div>
 
         <div className="grid md:grid-cols-3 gap-10">
-          {/* Main Story */}
+          {/* Artículo Principal */}
           <div className="md:col-span-2">
             <div className="bg-gray-100 rounded-xl overflow-hidden mb-4 h-64">
               <img
-                src={featured.image}
-                alt="Featured"
+                src={articuloPrincipal.image}
+                alt="Artículo principal"
                 className="w-full h-full object-cover"
               />
             </div>
-            <p className="text-sm text-gray-500">{featured.category}</p>
+            <p className="text-sm text-gray-500">{articuloPrincipal.category}</p>
             <h3 className="text-lg font-semibold text-gray-900 mt-1 mb-1">
-              {featured.title}
+              {articuloPrincipal.title}
             </h3>
             <p className="text-xs text-gray-500 mb-1">
-              {featured.date} • {featured.timeToRead}
+              {articuloPrincipal.date} • {articuloPrincipal.timeToRead}
             </p>
-            <p className="text-sm text-gray-600">{featured.summary}</p>
+            <p className="text-sm text-gray-600">{articuloPrincipal.summary}</p>
           </div>
 
-          {/* Sidebar Stories */}
+          {/* Artículos Laterales */}
           <div className="flex flex-col gap-6">
-            {sidebarStories.map((story, idx) => (
+            {articulosLaterales.map((story, idx) => (
               <div key={idx} className="flex gap-4">
                 <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-200 flex-shrink-0">
                   <img

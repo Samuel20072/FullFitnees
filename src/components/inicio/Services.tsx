@@ -1,62 +1,70 @@
-// src/components/Services.tsx
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import rumba from "../../assets/rumba.png";
 
-const destinations = [
-  { image: img1, title: "Golden Bridge, Ba Na Hills", country: "Vietnam" },
-  { image: img2, title: "Dubrovnik", country: "Croatia" },
-  { image: img3, title: "Hot Air Balloon Cappadocia", country: "Turkey" },
-  { image: img4, title: "Sydney Harbour Bridge", country: "Australia" },
+const servicios = [
+  {
+    image: rumba,
+    title: "Clases de Rumba",
+    description: "Ejercítate al ritmo de la música con nuestras sesiones dirigidas.",
+  },
+  {
+    image: rumba,
+    title: "Entrenamiento Funcional",
+    description: "Rutinas dinámicas que mejoran fuerza, resistencia y coordinación.",
+  },
+  {
+    image: rumba,
+    title: "Entrenamiento Personalizado",
+    description: "Un entrenador diseña un plan adaptado a tus metas.",
+  },
+  {
+    image: rumba,
+    title: "Zona de Pesas",
+    description: "Área equipada para potenciar tu masa muscular.",
+  },
 ];
 
-const filters = [
-  "Popular", "USA", "Europe", "Asia", "Africa & Middle East",
-  "Australia & The Pacific", "Canada", "More"
-];
-
-export default function TopDestinations() {
+export default function Servicios() {
   return (
     <section className="w-full bg-white py-12 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-0">
-            Top Destinations
-          </h2>
-          <div className="flex items-center gap-4 overflow-x-auto whitespace-nowrap text-sm text-gray-600">
-            {filters.map((filter, idx) => (
-              <button
-                key={idx}
-                className={`${
-                  idx === 0 ? "font-semibold text-black underline" : ""
-                } hover:text-black transition`}
-              >
-                {filter}
-              </button>
-            ))}
-            <button className="ml-4 border border-black px-4 py-1 rounded-full hover:bg-black hover:text-white transition">
-              Explore all destinations
-            </button>
-          </div>
-        </div>
+        {/* Título */}
+        <motion.h2
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl font-bold text-gray-900 text-center mb-12"
+        >
+          Nuestros Servicios
+        </motion.h2>
 
-        {/* Destination Cards */}
+        {/* Tarjetas de servicios */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {destinations.map((dest, idx) => (
-            <div key={idx} className="flex flex-col">
-              <div className="h-64 bg-gray-200 rounded-xl overflow-hidden shadow-sm">
+          {servicios.map((serv, idx) => (
+            <motion.div
+              key={idx}
+              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: idx * 0.2 }}
+              className="flex flex-col bg-white rounded-xl overflow-hidden shadow-md"
+            >
+              <div className="h-52 w-full bg-gray-100 overflow-hidden">
                 <img
-                  src={dest.image}
-                  alt={dest.title}
+                  src={serv.image}
+                  alt={serv.title}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="mt-2 text-sm font-semibold text-gray-900">
-                {dest.title}
-              </h3>
-              <p className="text-xs text-gray-600">{dest.country}</p>
-            </div>
+              <div className="p-4">
+                <h3 className="text-md font-semibold text-gray-900">
+                  {serv.title}
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  {serv.description}
+                </p>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
