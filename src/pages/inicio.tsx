@@ -1,7 +1,7 @@
 // src/pages/Inicio.tsx
 import Header from '../components/inicio/header';
 import HeroSlider from '../components/inicio/hero';
-import Services from '../components/inicio/Services';
+import Clases from '../components/inicio/Clases';
 
 import Merchandise from '../components/inicio/Merchandise';
 import Footer from '../components/inicio/footer';
@@ -11,7 +11,7 @@ export default function Inicio() {
     <div className="bg-[#121417] text-white font-sans">
       <Header />
       <HeroSlider />
-      <Services />
+      <Clases />
       <Merchandise />
       <Footer />
     </div>

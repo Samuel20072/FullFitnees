@@ -5,7 +5,7 @@ export default function Header() {
   const user = JSON.parse(localStorage.getItem("loggedUser") || "null");
 
   return (
-    <header className=" text-white py-4 px-6 flex justify-between items-center">
+    <header className="bg-[#121417] text-white py-4 px-6 flex justify-between items-center">
       {/* Logo y título */}
       <div className="flex items-center gap-3">
         <img
