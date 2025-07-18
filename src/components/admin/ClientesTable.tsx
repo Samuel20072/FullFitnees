@@ -1,37 +1,48 @@
 import { useState } from "react";
 import Modal from "../common/Modal";
 import { motion } from "framer-motion";
+import { useUsuarios } from "../../contexts/UserContext";
+import type { Usuario } from "../../contexts/UserContext";
 
-type Cliente = {
-  id: number;
-  nombre: string;
-  correo: string;
-  telefono: string;
-  estado: string;
-  plan: string;
-  fechaRegistro: string;
-};
-
-export default function ClientesTable({ clientes }: { clientes: Cliente[] }) {
+export default function ClientesTable({ clientes }: { clientes: Usuario[] }) {
+  const { updateUser } = useUsuarios();
   const [search, setSearch] = useState("");
   const [filtroEstado, setFiltroEstado] = useState("Todos");
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [clienteSeleccionado, setClienteSeleccionado] = useState<Cliente | null>(null);
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<Usuario | null>(null);
+  const [planSeleccionado, setPlanSeleccionado] = useState("Mensual");
 
   const filtrados = clientes.filter((cliente) => {
     const coincideBusqueda =
-      cliente.nombre.toLowerCase().includes(search.toLowerCase()) ||
-      cliente.correo.toLowerCase().includes(search.toLowerCase());
+      cliente.fullName.toLowerCase().includes(search.toLowerCase()) ||
+      cliente.email.toLowerCase().includes(search.toLowerCase());
 
     const coincideEstado =
       filtroEstado === "Todos" || cliente.estado === filtroEstado;
 
-    return coincideBusqueda && coincideEstado;
+    return coincideBusqueda && coincideEstado && cliente.role === "cliente";
   });
 
-  const abrirModalPago = (cliente: Cliente) => {
+  const abrirModalPago = (cliente: Usuario) => {
     setClienteSeleccionado(cliente);
     setModalAbierto(true);
+  };
+
+  const handleGuardarPago = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!clienteSeleccionado) return;
+
+    const hoy = new Date();
+    const fechaPago = hoy.toISOString().split("T")[0];
+    const fechaVencimiento = new Date(hoy.setMonth(hoy.getMonth() + 1)).toISOString().split("T")[0];
+
+    updateUser(clienteSeleccionado.cc, {
+      estado: "activo",
+      fechaPago,
+      fechaVencimiento,
+    });
+
+    setModalAbierto(false);
   };
 
   return (
@@ -53,8 +64,8 @@ export default function ClientesTable({ clientes }: { clientes: Cliente[] }) {
             onChange={(e) => setFiltroEstado(e.target.value)}
           >
             <option value="Todos">Todos</option>
-            <option value="Activo">Activos</option>
-            <option value="Inactivo">Inactivos</option>
+            <option value="activo">Activos</option>
+            <option value="inactivo">Inactivos</option>
           </select>
         </div>
       </div>
@@ -68,36 +79,33 @@ export default function ClientesTable({ clientes }: { clientes: Cliente[] }) {
               <th className="px-4 py-2 bg-gray-100">Correo</th>
               <th className="px-4 py-2 bg-gray-100">Teléfono</th>
               <th className="px-4 py-2 bg-gray-100">Estado</th>
-              <th className="px-4 py-2 bg-gray-100">Plan</th>
-              <th className="px-4 py-2 bg-gray-100">Registro</th>
+              <th className="px-4 py-2 bg-gray-100">Pago</th>
+              <th className="px-4 py-2 bg-gray-100">Vencimiento</th>
               <th className="px-4 py-2 bg-gray-100 rounded-r-md">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {filtrados.map((cliente) => (
               <motion.tr
-                key={cliente.id}
+                key={cliente.cc}
                 layout
                 className="bg-white shadow hover:bg-gray-50 rounded-md"
               >
-                <td className="px-4 py-2 rounded-l-md">{cliente.nombre}</td>
-                <td className="px-4 py-2">{cliente.correo}</td>
-                <td className="px-4 py-2">{cliente.telefono}</td>
+                <td className="px-4 py-2 rounded-l-md">{cliente.fullName}</td>
+                <td className="px-4 py-2">{cliente.email}</td>
+                <td className="px-4 py-2">{cliente.phone}</td>
                 <td
                   className={`px-4 py-2 font-semibold ${
-                    cliente.estado === "Activo"
+                    cliente.estado === "activo"
                       ? "text-green-600"
                       : "text-red-600"
                   }`}
                 >
                   {cliente.estado}
                 </td>
-                <td className="px-4 py-2">{cliente.plan}</td>
-                <td className="px-4 py-2">{cliente.fechaRegistro}</td>
+                <td className="px-4 py-2">{cliente.fechaPago || "-"}</td>
+                <td className="px-4 py-2">{cliente.fechaVencimiento || "-"}</td>
                 <td className="px-4 py-2 flex flex-col md:flex-row gap-2 rounded-r-md">
-                  <button className="text-indigo-600 text-xs hover:underline">Ver</button>
-                  <button className="text-yellow-500 text-xs hover:underline">Editar</button>
-                  <button className="text-red-500 text-xs hover:underline">Eliminar</button>
                   <button
                     onClick={() => abrirModalPago(cliente)}
                     className="text-green-600 text-xs hover:underline"
@@ -121,30 +129,19 @@ export default function ClientesTable({ clientes }: { clientes: Cliente[] }) {
       <Modal
         isOpen={modalAbierto}
         onClose={() => setModalAbierto(false)}
-        title={`Agregar Pago - ${clienteSeleccionado?.nombre}`}
+        title={`Agregar Pago - ${clienteSeleccionado?.fullName}`}
       >
-        <form className="space-y-4">
-          <div>
-            <label className="text-sm text-gray-700 block mb-1">Monto</label>
-            <input
-              type="number"
-              placeholder="$"
-              className="w-full border rounded-md px-4 py-2 text-sm"
-            />
-          </div>
+        <form onSubmit={handleGuardarPago} className="space-y-4">
           <div>
             <label className="text-sm text-gray-700 block mb-1">Tipo de Plan</label>
-            <select className="w-full border rounded-md px-4 py-2 text-sm">
-              <option>Mensual</option>
-              <option>Trimestral</option>
-              <option>Anual</option>
-            </select>
-          </div>
-          <div>
-            <label className="text-sm text-gray-700 block mb-1">Estado</label>
-            <select className="w-full border rounded-md px-4 py-2 text-sm">
-              <option>Pagado</option>
-              <option>Pendiente</option>
+            <select
+              className="w-full border rounded-md px-4 py-2 text-sm"
+              value={planSeleccionado}
+              onChange={(e) => setPlanSeleccionado(e.target.value)}
+            >
+              <option value="Mensual">Mensual</option>
+              <option value="Trimestral">Trimestral</option>
+              <option value="Anual">Anual</option>
             </select>
           </div>
           <div className="flex justify-end">

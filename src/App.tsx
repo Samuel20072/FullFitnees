@@ -3,11 +3,14 @@ import { useEffect } from "react";
 import Inicio from "./pages/inicio";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import Perfil from "./pages/Perfil";
 import ClaseDetalle from "./pages/ClaseDetalle";
 import EntrenadorDetalle from "./pages/EntrenadorDetalle";
 import ProductDetail from "./pages/ProductDetail";
-import Dashboard from "./pages/admin/Dashboard"
-import { ClaseProvider } from "./context/ClaseContext";
+import Dashboard from "./pages/admin/Dashboard";
+import { ClaseProvider } from "./contexts/ClaseContext";
+import { ProductoProvider } from "./contexts/ProductoContext";
+import { UserProvider } from "./contexts/UserContext";
 
 function AutoLogoutWrapper({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -44,17 +47,25 @@ function App() {
     <BrowserRouter>
       <AutoLogoutWrapper>
         <ClaseProvider>
-          <Routes>
-          <Route path="/" element={<Inicio />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/clases/:id" element={<ClaseDetalle />} />
-          <Route path="/entrenadores/:id" element={<EntrenadorDetalle />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/admin/dashboard" element={<Dashboard/>} />
-        </Routes>
+          <ProductoProvider>
+            <UserProvider>
+              {" "}
+              <Routes>
+                <Route path="/" element={<Inicio />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/profile" element={<Perfil />} />
+                <Route path="/clases/:id" element={<ClaseDetalle />} />
+                <Route
+                  path="/entrenadores/:id"
+                  element={<EntrenadorDetalle />}
+                />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/admin/dashboard" element={<Dashboard />} />
+              </Routes>
+            </UserProvider>
+          </ProductoProvider>
         </ClaseProvider>
-        
       </AutoLogoutWrapper>
     </BrowserRouter>
   );

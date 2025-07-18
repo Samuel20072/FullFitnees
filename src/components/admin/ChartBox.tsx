@@ -26,7 +26,7 @@ export default function ChartBox() {
           <XAxis dataKey="mes" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="valor" fill="#6366f1" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="valor" fill="#1E88E5 " radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

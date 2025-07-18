@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useClases } from "../../context/ClaseContext"; // ✅ aquí importas el hook
+import { useClases } from "../../contexts/ClaseContext"; // ✅ aquí importas el hook
 
 export default function Clases() {
   const navigate = useNavigate();

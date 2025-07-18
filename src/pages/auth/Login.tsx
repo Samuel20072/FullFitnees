@@ -1,35 +1,16 @@
 import { useState } from "react";
 import InputField from "../../components/auth/InputField";
 import { useNavigate } from "react-router-dom";
+import { useUsuarios } from "../../contexts/UserContext"; // Asegúrate del path correcto
 
 export default function Login() {
   const navigate = useNavigate();
+  const { usuarios } = useUsuarios(); // Usamos los usuarios del contexto
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const users = [
-    {
-      fullName: "Juan Pérez",
-      email: "cliente@example.com",
-      password: "cliente123",
-      role: "cliente",
-    },
-    {
-      fullName: "Ana Torres",
-      email: "entrenador@example.com",
-      password: "entrenador123",
-      role: "entrenador",
-    },
-    {
-      fullName: "Carlos Gómez",
-      email: "admin@example.com",
-      password: "admin123",
-      role: "admin",
-    },
-  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,8 +19,10 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const foundUser = users.find(
-      (u) => u.email === formData.email && u.password === formData.password
+    const foundUser = usuarios.find(
+      (u) =>
+        u.email === formData.email &&
+        u.password === formData.password
     );
 
     if (!foundUser) {
@@ -47,10 +30,15 @@ export default function Login() {
       return;
     }
 
+    if (foundUser.estado !== "activo") {
+      alert("Tu cuenta está inactiva. Por favor renueva tu mensualidad.");
+      return;
+    }
+
     localStorage.setItem("loggedUser", JSON.stringify(foundUser));
     alert(`Bienvenido, ${foundUser.fullName} (${foundUser.role})`);
 
-    // Redireccionar al dashboard o a la página que quieras
+    // Redirigir según el rol si lo deseas
     navigate("/");
   };
 
@@ -77,7 +65,7 @@ export default function Login() {
         />
         <button
           type="submit"
-          className="w-full bg-[#1E88E5]  py-2 rounded-lg font-semibold text-black mt-4"
+          className="w-full bg-[#1E88E5] py-2 rounded-lg font-semibold text-black mt-4"
         >
           Login
         </button>

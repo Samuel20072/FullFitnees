@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useClases } from "../context/ClaseContext";
+import { useClases } from "../contexts/ClaseContext";
 import Header from "../components/inicio/header";
 import Footer from "../components/inicio/footer";
 

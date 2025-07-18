@@ -8,7 +8,7 @@ import Footer from '../components/inicio/footer';
 
 export default function Inicio() {
   return (
-    <div className="bg-[#121417] text-white font-sans">
+    <div className="text-white font-sans">
       <Header />
       <HeroSlider />
       <Clases />
