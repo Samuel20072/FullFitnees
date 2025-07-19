@@ -1,4 +1,5 @@
 import { useProductos } from "../../contexts/ProductoContext";
+import { Link } from "react-router-dom";
 
 export default function ProductosDestacados() {
   const { productos } = useProductos();
@@ -13,9 +14,12 @@ export default function ProductosDestacados() {
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Productos en venta</h2>
-          <button className="border bg-gray-800 px-4 py-1 rounded-full text-sm hover:bg-gray-900 hover:text-white transition">
-            Ver todos los productos
-          </button>
+          <Link
+  to="/productos"
+  className="border bg-gray-800 text-white px-4 py-1 rounded-full text-sm hover:bg-gray-900 transition"
+>
+  Ver todos los productos
+</Link>
         </div>
 
         <div className="grid md:grid-cols-3 gap-10">

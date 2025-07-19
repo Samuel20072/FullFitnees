@@ -8,6 +8,7 @@ import ClaseDetalle from "./pages/ClaseDetalle";
 import EntrenadorDetalle from "./pages/EntrenadorDetalle";
 import ProductDetail from "./pages/ProductDetail";
 import Dashboard from "./pages/admin/Dashboard";
+import TodosLosProductos from "./pages/TodosLosProductos";
 import { ClaseProvider } from "./contexts/ClaseContext";
 import { ProductoProvider } from "./contexts/ProductoContext";
 import { UserProvider } from "./contexts/UserContext";
@@ -60,6 +61,7 @@ function App() {
                   path="/entrenadores/:id"
                   element={<EntrenadorDetalle />}
                 />
+                <Route path="/productos" element={<TodosLosProductos />} />
                 <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/admin/dashboard" element={<Dashboard />} />
               </Routes>

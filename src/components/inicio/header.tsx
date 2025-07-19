@@ -16,6 +16,15 @@ export default function Header() {
     navigate("/login");
   };
 
+  // Fecha de vencimiento de membresía si es cliente
+  const fechaVencimiento = user?.fechaVencimiento
+    ? new Date(user.fechaVencimiento).toLocaleDateString("es-CO", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : null;
+
   // Cierra el menú si se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -43,7 +52,7 @@ export default function Header() {
       <nav className="flex gap-6 items-center text-sm sm:text-base relative">
         <Link to="/" className="hover:text-[#1E88E5]">Inicio</Link>
         <Link to="/classes" className="hover:text-[#1E88E5]">Clases</Link>
-        <Link to="/products" className="hover:text-[#1E88E5]">Productos</Link>
+        <Link to="/productos" className="hover:text-[#1E88E5]">Productos</Link>
         <Link to="/trainers" className="hover:text-[#1E88E5]">Entrenadores</Link>
 
         {(user?.role === "entrenador" || user?.role === "admin") && (
@@ -51,6 +60,13 @@ export default function Header() {
         )}
         {user?.role === "admin" && (
           <Link to="/admin/dashboard" className="hover:text-[#1E88E5]">Admin</Link>
+        )}
+
+        {/* ✅ Mostrar vencimiento si es cliente */}
+        {user?.role === "cliente" && fechaVencimiento && (
+          <div className="text-sm text-gray-300">
+            Vence: <span className="font-semibold text-white">{fechaVencimiento}</span>
+          </div>
         )}
 
         {user ? (
