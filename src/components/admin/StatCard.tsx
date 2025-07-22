@@ -1,6 +1,5 @@
 // src/components/Dashboard/StatCard.tsx
 export default function StatCard({
-  icon,
   title,
   value,
   change,

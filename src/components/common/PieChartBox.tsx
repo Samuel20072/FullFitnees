@@ -14,8 +14,16 @@ export default function PieChartBox({ title, data, colors }: Props) {
       <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label>
-            {data.map((entry, index) => (
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            outerRadius={80}
+            label
+          >
+            {data.map((_, index) => (
               <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
             ))}
           </Pie>
