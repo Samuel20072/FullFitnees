@@ -2,6 +2,7 @@ import { useProductos } from "../contexts/ProductoContext";
 import Header from "../components/inicio/header";
 import Footer from "../components/inicio/footer";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function TodosLosProductos() {
   const { productos } = useProductos();
@@ -44,19 +45,21 @@ export default function TodosLosProductos() {
                   transition={{ delay: index * 0.05 }}
                   className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-transform duration-300"
                 >
-                  <img
-                    src={producto.image}
-                    alt={producto.name}
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="p-4">
-                    <p className="text-xs text-gray-500 mb-1">{producto.category}</p>
-                    <h3 className="text-lg font-semibold text-gray-800">{producto.name}</h3>
-                    <p className="text-sm text-green-600 font-bold mb-2">{producto.price}</p>
-                    <p className="text-sm text-gray-600 line-clamp-2">
-                      {producto.summary || "Sin descripción disponible."}
-                    </p>
-                  </div>
+                  <Link to={`/producto/${producto.id}`}>
+                    <img
+                      src={producto.image}
+                      alt={producto.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <p className="text-xs text-gray-500 mb-1">{producto.category}</p>
+                      <h3 className="text-lg font-semibold text-gray-800">{producto.name}</h3>
+                      <p className="text-sm text-green-600 font-bold mb-2">{producto.price}</p>
+                      <p className="text-sm text-gray-600 line-clamp-2">
+                        {producto.summary || "Sin descripción disponible."}
+                      </p>
+                    </div>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>

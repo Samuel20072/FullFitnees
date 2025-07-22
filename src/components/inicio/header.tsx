@@ -51,9 +51,9 @@ export default function Header() {
       {/* Navegación */}
       <nav className="flex gap-6 items-center text-sm sm:text-base relative">
         <Link to="/" className="hover:text-[#1E88E5]">Inicio</Link>
-        <Link to="/classes" className="hover:text-[#1E88E5]">Clases</Link>
+        <Link to="/clases" className="hover:text-[#1E88E5]">Clases</Link>
         <Link to="/productos" className="hover:text-[#1E88E5]">Productos</Link>
-        <Link to="/trainers" className="hover:text-[#1E88E5]">Entrenadores</Link>
+        <Link to="/entrenadores" className="hover:text-[#1E88E5]">Entrenadores</Link>
 
         {(user?.role === "entrenador" || user?.role === "admin") && (
           <Link to="/create-class" className="hover:text-[#1E88E5]">Crear Clase</Link>

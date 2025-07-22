@@ -15,21 +15,24 @@ export default function ProductosDestacados() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Productos en venta</h2>
           <Link
-  to="/productos"
-  className="border bg-gray-800 text-white px-4 py-1 rounded-full text-sm hover:bg-gray-900 transition"
->
-  Ver todos los productos
-</Link>
+            to="/productos"
+            className="border bg-gray-800 text-white px-4 py-1 rounded-full text-sm hover:bg-gray-900 transition"
+          >
+            Ver todos los productos
+          </Link>
         </div>
 
         <div className="grid md:grid-cols-3 gap-10">
           {/* Producto Principal */}
-          <div className="md:col-span-2">
+          <Link
+            to={`/producto/${productoPrincipal.id}`}
+            className="md:col-span-2 block group"
+          >
             <div className="bg-gray-100 rounded-xl overflow-hidden mb-4 h-64">
               <img
                 src={productoPrincipal.image}
                 alt={productoPrincipal.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
             <p className="text-sm text-gray-500">{productoPrincipal.category}</p>
@@ -42,12 +45,16 @@ export default function ProductosDestacados() {
             <p className="text-sm text-gray-600">
               {productoPrincipal.summary ?? "Sin descripción disponible."}
             </p>
-          </div>
+          </Link>
 
           {/* Productos Laterales */}
           <div className="flex flex-col gap-6">
             {productosLaterales.map((producto) => (
-              <div key={producto.id} className="flex gap-4">
+              <Link
+                key={producto.id}
+                to={`/producto/${producto.id}`}
+                className="flex gap-4 items-center hover:bg-gray-50 p-2 rounded-lg transition"
+              >
                 <div className="w-20 h-20 rounded-xl overflow-hidden bg-gray-200 flex-shrink-0">
                   <img
                     src={producto.image}
@@ -64,7 +71,7 @@ export default function ProductosDestacados() {
                     {producto.price}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

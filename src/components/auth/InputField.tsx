@@ -1,22 +1,42 @@
-interface InputFieldProps {
+import type { ReactNode } from "react";
+
+type Props = {
   label: string;
-  type: string;
   name: string;
+  type?: string;
+  placeholder?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+  icon?: ReactNode;
+};
 
-export default function InputField({ label, type, name, value, onChange }: InputFieldProps) {
+export default function InputField({
+  label,
+  name,
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  icon,
+}: Props) {
   return (
-    <div className="mb-4">
-      <label className="block mb-1 font-medium text-white">{label}</label>
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        className="w-full p-3 rounded-lg bg-[#111] text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
+    <div className="mb-5">
+      <label htmlFor={name} className="text-sm text-gray-300 block mb-1">
+        {label}
+      </label>
+      <div className="flex items-center bg-[#2b2b2b] rounded-md px-3">
+        {icon && <span className="text-gray-400 mr-2">{icon}</span>}
+        <input
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          className="bg-transparent w-full py-2 outline-none text-sm text-white"
+          required
+        />
+      </div>
     </div>
   );
 }

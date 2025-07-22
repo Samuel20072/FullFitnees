@@ -9,9 +9,12 @@ import EntrenadorDetalle from "./pages/EntrenadorDetalle";
 import ProductDetail from "./pages/ProductDetail";
 import Dashboard from "./pages/admin/Dashboard";
 import TodosLosProductos from "./pages/TodosLosProductos";
+import TodosLosEntrenadores from "./pages/TodosLosEntrenadores";
+import TodasLasClases from "./pages/TodasLasClases";
 import { ClaseProvider } from "./contexts/ClaseContext";
 import { ProductoProvider } from "./contexts/ProductoContext";
 import { UserProvider } from "./contexts/UserContext";
+import { EntrenadorProvider } from "./contexts/EntrenadorContext";
 
 function AutoLogoutWrapper({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
@@ -50,21 +53,23 @@ function App() {
         <ClaseProvider>
           <ProductoProvider>
             <UserProvider>
-              {" "}
+              <EntrenadorProvider>
+                 {" "}
               <Routes>
                 <Route path="/" element={<Inicio />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="registro" element={<Register />} />
                 <Route path="/profile" element={<Perfil />} />
                 <Route path="/clases/:id" element={<ClaseDetalle />} />
-                <Route
-                  path="/entrenadores/:id"
-                  element={<EntrenadorDetalle />}
-                />
+                <Route path="/entrenadores/:id"element={<EntrenadorDetalle />}/>
+                <Route path="/entrenadores"element={<TodosLosEntrenadores />}/>
                 <Route path="/productos" element={<TodosLosProductos />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/clases" element={<TodasLasClases />} />
+                <Route path="/producto/:id" element={<ProductDetail />} />
                 <Route path="/admin/dashboard" element={<Dashboard />} />
               </Routes>
+              </EntrenadorProvider>
+             
             </UserProvider>
           </ProductoProvider>
         </ClaseProvider>

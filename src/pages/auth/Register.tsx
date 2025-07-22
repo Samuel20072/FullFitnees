@@ -1,7 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import InputField from "../../components/auth/InputField";
+import { FaUser, FaIdCard, FaPhone, FaEnvelope, FaLock } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fullName: "",
     cc: "",
@@ -19,7 +24,7 @@ export default function Register() {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match");
+      alert("Las contraseñas no coinciden");
       return;
     }
 
@@ -31,40 +36,44 @@ export default function Register() {
     };
 
     localStorage.setItem("registeredUser", JSON.stringify(userToSave));
-    alert("Usuario registrado exitosamente");
-
-    // Puedes redirigir al login si lo deseas:
-    // navigate("/login");
+    alert("✅ Usuario registrado exitosamente");
+    navigate("/login");
   };
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center text-white">
-      <form
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center px-4 text-white">
+      <motion.form
         onSubmit={handleSubmit}
-        className="bg-[#111] p-10 rounded-xl shadow-lg w-full max-w-md"
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="bg-[#1c1c1c] p-10 rounded-2xl shadow-2xl w-full max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        <h2 className="text-3xl font-bold mb-2 text-center">Crear cuenta</h2>
+        <p className="text-sm text-gray-400 text-center mb-8">
+          Regístrate con tus datos personales
+        </p>
 
         <InputField
-          label="Full Name"
-          type="text"
+          label="Nombre completo"
           name="fullName"
           value={formData.fullName}
           onChange={handleChange}
+          icon={<FaUser />}
         />
         <InputField
-          label="C.C."
-          type="text"
+          label="Cédula"
           name="cc"
           value={formData.cc}
           onChange={handleChange}
+          icon={<FaIdCard />}
         />
         <InputField
-          label="Phone Number"
-          type="text"
+          label="Teléfono"
           name="phone"
           value={formData.phone}
           onChange={handleChange}
+          icon={<FaPhone />}
         />
         <InputField
           label="Email"
@@ -72,29 +81,39 @@ export default function Register() {
           name="email"
           value={formData.email}
           onChange={handleChange}
+          icon={<FaEnvelope />}
         />
         <InputField
-          label="Password"
+          label="Contraseña"
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
+          icon={<FaLock />}
         />
         <InputField
-          label="Confirm Password"
+          label="Confirmar contraseña"
           type="password"
           name="confirmPassword"
           value={formData.confirmPassword}
           onChange={handleChange}
+          icon={<FaLock />}
         />
 
         <button
           type="submit"
-          className="w-full bg-[#1E88E5]  py-2 rounded-lg font-semibold text-black mt-4"
+          className="w-full bg-[#1E88E5] hover:bg-[#0D80F2] text-white font-semibold py-2 rounded-md mt-4 transition-all"
         >
-          Register
+          Registrarme
         </button>
-      </form>
+
+        <div className="mt-6 text-center text-sm text-gray-400">
+          ¿Ya tienes cuenta?{" "}
+          <a href="/login" className="text-blue-500 hover:underline">
+            Iniciar sesión
+          </a>
+        </div>
+      </motion.form>
     </div>
   );
 }
