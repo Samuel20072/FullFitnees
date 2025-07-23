@@ -2,21 +2,22 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import fullFinnes from "../../assets/fullFinnes.png";
 import { FaCircleUser } from "react-icons/fa6";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 
 export default function Header() {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
-  const user = JSON.parse(localStorage.getItem("loggedUser") || "null");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const user = JSON.parse(localStorage.getItem("loggedUser") || "null");
 
   const handleLogout = () => {
     localStorage.removeItem("loggedUser");
     navigate("/login");
   };
 
-  // Fecha de vencimiento de membresía si es cliente
   const fechaVencimiento = user?.fechaVencimiento
     ? new Date(user.fechaVencimiento).toLocaleDateString("es-CO", {
         year: "numeric",
@@ -25,7 +26,6 @@ export default function Header() {
       })
     : null;
 
-  // Cierra el menú si se hace clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -36,38 +36,37 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const NavigationLinks = () => (
+    <>
+      <Link to="/" className="hover:text-[#1E88E5]">Inicio</Link>
+      <Link to="/clases" className="hover:text-[#1E88E5]">Clases</Link>
+      <Link to="/productos" className="hover:text-[#1E88E5]">Productos</Link>
+      <Link to="/entrenadores" className="hover:text-[#1E88E5]">Entrenadores</Link>
+      {(user?.role === "entrenador" || user?.role === "admin") && (
+        <Link to="/create-class" className="hover:text-[#1E88E5]">Crear Clase</Link>
+      )}
+      {user?.role === "admin" && (
+        <Link to="/admin/dashboard" className="hover:text-[#1E88E5]">Admin</Link>
+      )}
+      {user?.role === "cliente" && fechaVencimiento && (
+        <span className="text-sm text-gray-300">
+          Vence: <span className="text-white font-semibold">{fechaVencimiento}</span>
+        </span>
+      )}
+    </>
+  );
+
   return (
-    <header className="bg-[#121417] text-white py-4 px-6 flex justify-between items-center relative">
-      {/* Logo y título */}
-      <div className="flex items-center gap-3">
-        <img
-          src={fullFinnes}
-          alt="Full Fitness Logo"
-          className="w-12 h-12 object-contain"
-        />
-        <h1 className="text-2xl font-bold">Full Fitness</h1>
-      </div>
+    <header className="bg-[#121417] text-white py-4 px-6 flex justify-between items-center relative z-50">
+      {/* Logo */}
+     <Link to="/" className="flex items-center gap-3">
+  <img src={fullFinnes} alt="Logo" className="w-10 h-10 object-contain" />
+  <h1 className="text-xl font-bold">Full Fitness</h1>
+</Link>
 
-      {/* Navegación */}
-      <nav className="flex gap-6 items-center text-sm sm:text-base relative">
-        <Link to="/" className="hover:text-[#1E88E5]">Inicio</Link>
-        <Link to="/clases" className="hover:text-[#1E88E5]">Clases</Link>
-        <Link to="/productos" className="hover:text-[#1E88E5]">Productos</Link>
-        <Link to="/entrenadores" className="hover:text-[#1E88E5]">Entrenadores</Link>
-
-        {(user?.role === "entrenador" || user?.role === "admin") && (
-          <Link to="/create-class" className="hover:text-[#1E88E5]">Crear Clase</Link>
-        )}
-        {user?.role === "admin" && (
-          <Link to="/admin/dashboard" className="hover:text-[#1E88E5]">Admin</Link>
-        )}
-
-        {/* ✅ Mostrar vencimiento si es cliente */}
-        {user?.role === "cliente" && fechaVencimiento && (
-          <div className="text-sm text-gray-300">
-            Vence: <span className="font-semibold text-white">{fechaVencimiento}</span>
-          </div>
-        )}
+      {/* Desktop nav */}
+      <nav className="hidden md:flex gap-6 items-center text-sm">
+        <NavigationLinks />
 
         {user ? (
           <div className="relative" ref={menuRef}>
@@ -118,6 +117,62 @@ export default function Header() {
           </Link>
         )}
       </nav>
+
+      {/* Mobile menu button */}
+      <button
+        className="md:hidden text-white text-2xl"
+        onClick={() => setMobileMenuOpen(true)}
+      >
+        <FaBars />
+      </button>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 bg-[#121417] text-white z-50 p-6 flex flex-col gap-6"
+          >
+            <div className="flex justify-between items-center">
+              <h1 className="text-xl font-bold">Menú</h1>
+              <button onClick={() => setMobileMenuOpen(false)} className="text-2xl">
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-4 text-lg mt-4">
+              <NavigationLinks />
+              {user ? (
+                <>
+                  <Link to="/profile" onClick={() => setMobileMenuOpen(false)}>Mi perfil</Link>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="text-red-400 text-left"
+                  >
+                    Cerrar sesión
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="bg-[#0D80F2] text-white text-center py-2 rounded-lg"
+                >
+                  Iniciar sesión
+                </Link>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
+
+

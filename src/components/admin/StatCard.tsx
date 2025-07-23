@@ -1,5 +1,5 @@
-// src/components/Dashboard/StatCard.tsx
 export default function StatCard({
+  icon,
   title,
   value,
   change,
@@ -12,11 +12,15 @@ export default function StatCard({
   color: "green" | "red";
 }) {
   return (
-    <div className="bg-white p-4 rounded-xl shadow flex flex-col gap-1">
-      <div className="text-gray-400 text-sm">{title}</div>
-      <div className="flex items-center gap-2">
-        <span className="text-2xl font-bold">{value}</span>
-        <span className={`text-sm ${color === "green" ? "text-green-600" : "text-red-600"}`}>
+    <div className="bg-white p-5 rounded-xl shadow-md flex flex-col gap-2 w-full min-w-[140px]">
+      <div className="flex items-center justify-between">
+        <span className="text-sm text-gray-500">{title}</span>
+        <span className="text-xl text-gray-400">{icon}</span>
+      </div>
+
+      <div className="flex items-end justify-between">
+        <span className="text-2xl font-bold text-gray-900">{value}</span>
+        <span className={`text-sm font-medium ${color === "green" ? "text-green-600" : "text-red-600"}`}>
           {change}
         </span>
       </div>

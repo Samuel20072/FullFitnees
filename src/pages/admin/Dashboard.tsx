@@ -14,14 +14,13 @@ export default function Dashboard() {
   const [activePage, setActivePage] = useState("inicio");
   const { usuarios } = useUsuarios();
 
-  // Memoizar conteos
   const clientesActivos = useMemo(
     () => usuarios.filter((u) => u.role === "cliente" && u.estado === "activo").length,
     [usuarios]
   );
 
   const nuevosClientes = useMemo(
-    () => usuarios.filter((u) => u.role === "cliente" && /* lógica de fecha */ true).length,
+    () => usuarios.filter((u) => u.role === "cliente" && /* lógica */ true).length,
     [usuarios]
   );
 
@@ -30,19 +29,23 @@ export default function Dashboard() {
     [usuarios]
   );
 
-  // Suponiendo que ingresos son 80.000 por cliente activo
   const totalIngresos = useMemo(() => clientesActivos * 80000, [clientesActivos]);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
-      <Sidebar onSelect={setActivePage} activePage={activePage} />
+    <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+      {/* Sidebar (hidden on small, visible on lg+) */}
+      <div className="w-full lg:w-64 flex-shrink-0">
+        <Sidebar onSelect={setActivePage} activePage={activePage} />
+      </div>
 
-      <main className="flex-1 p-6 space-y-6">
+      {/* Main Content */}
+      <main className="flex-1 p-4 sm:p-6 space-y-6">
         <HeaderBar />
 
         {activePage === "inicio" && (
           <>
-            <section className="grid grid-cols-4 gap-4">
+            {/* Stats Cards */}
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <StatCard
                 icon={<FaDollarSign />}
                 title="Total Ingresos"
@@ -73,11 +76,15 @@ export default function Dashboard() {
               />
             </section>
 
-            <section className="grid grid-cols-3 gap-6">
-              <ChartBox />
+            {/* Chart + Calendar */}
+            <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <ChartBox />
+              </div>
               <CalendarBox />
             </section>
 
+            {/* Tabla de pagos */}
             <PaymentsTable />
           </>
         )}
@@ -85,21 +92,24 @@ export default function Dashboard() {
         {activePage === "clientes" && <ClientesDashboard />}
 
         {activePage === "eventos" && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Eventos</h2>
-          </div>
+          <section>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Eventos</h2>
+            <p className="text-gray-500">Aquí puedes gestionar los eventos.</p>
+          </section>
         )}
 
         {activePage === "entrenadores" && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Entrenadores</h2>
-          </div>
+          <section>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Entrenadores</h2>
+            <p className="text-gray-500">Sección para administrar entrenadores.</p>
+          </section>
         )}
 
         {activePage === "productos" && (
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Productos</h2>
-          </div>
+          <section>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Productos</h2>
+            <p className="text-gray-500">Aquí puedes agregar o editar productos.</p>
+          </section>
         )}
       </main>
     </div>
